@@ -3,6 +3,8 @@
 
 pvCam camera control is an user interface to control Photometrics scientifics camera 
 
+This software is not associated with Photometrics . Use it at your own risk.
+
 it use PyVCAM library from :
 https://github.com/Photometrics/PyVCAM
 
