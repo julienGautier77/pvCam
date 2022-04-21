@@ -6,7 +6,11 @@ on conda prompt
 pip install qdarkstyle (https://github.com/ColinDuquesnoy/QDarkStyleSheet.git)
 pip install pyqtgraph (https://github.com/pyqtgraph/pyqtgraph.git)
 pip install visu
-
+install PVCAM and PVCAM sdk
+donwload PyVcam from : https://github.com/Photometrics/PyVCAM 
+avigate into the directory that contains setup.py and run python setup.py install
+install vs_buildtools https://visualstudio.microsoft.com/fr/downloads/
+install window app sdk https://developer.microsoft.com/fr-fr/windows/downloads/windows-sdk/
 @author: juliengautier
 modified 2019/08/13 : add position RSAI motors
 """
@@ -145,7 +149,7 @@ class PVCAM(QWidget):
             
         except:
             self.isConnected=False
-        
+            self.cam=None
         
             
         if  self.isConnected==True:
@@ -556,8 +560,10 @@ class PVCAM(QWidget):
         except:
             print('no camera connected')
         #self.threadTemp.stopThreadTemp()
-        self.cam.close()
-        pvc.uninit_pvcam()
+        try :
+            self.cam.close()
+            pvc.uninit_pvcam()
+        except :pass
         if self.isConnected==True:
             if self.settingWidget.isWinOpen==True:
                 self.settingWidget.close()
