@@ -25,13 +25,10 @@ on a retiga 600 camera
 install PVCAM and PVCAM SDK from : https://www.photometrics.com/support/software-and-drivers#software
 install PyVCAM :
 
-
-
-donwload PyVcam from : https://github.com/Photometrics/PyVCAM 
-Navigate into the directory that contains setup.py and run python setup.py install
-
 install vs_buildtools https://visualstudio.microsoft.com/fr/downloads/
 install window app sdk https://developer.microsoft.com/fr-fr/windows/downloads/windows-sdk/
+donwload PyVcam from : https://github.com/Photometrics/PyVCAM 
+Navigate into the directory that contains setup.py and run python setup.py install
 
 install visu :
 pip install qdarkstyle (https://github.com/ColinDuquesnoy/QDarkStyleSheet.git)
