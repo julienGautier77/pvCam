@@ -22,15 +22,18 @@ on a retiga 600 camera
 *   visu 2022.04
 
 ## Installation
-install PVCAM and PVCAM SDK from : https://www.photometrics.com/support/software-and-drivers#software
-install PyVCAM :
+Install PVCAM and PVCAM SDK from : https://www.photometrics.com/support/software-and-drivers#software
+Onstall PyVCAM :
 
-install vs_buildtools https://visualstudio.microsoft.com/fr/downloads/
+Onstall vs_buildtools https://visualstudio.microsoft.com/fr/downloads/
+
 install window app sdk https://developer.microsoft.com/fr-fr/windows/downloads/windows-sdk/
-donwload PyVcam from : https://github.com/Photometrics/PyVCAM 
-Navigate into the directory that contains setup.py and run python setup.py install
 
-install visu :
+Donwload PyVcam from : https://github.com/Photometrics/PyVCAM 
+
+Navigate into the directory that contains setup.py and  python setup.py install
+
+Onstall visu :
 pip install qdarkstyle (https://github.com/ColinDuquesnoy/QDarkStyleSheet.git)
 pip install pyqtgraph (https://github.com/pyqtgraph/pyqtgraph.git)
 pip install git+https://github.com/julienGautier77/visu
