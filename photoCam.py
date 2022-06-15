@@ -173,9 +173,9 @@ class PVCAM(QWidget):
             # self.cam.setParameter("TriggerDetermination", int(1))
             self.dimx = self.cam.sensor_size[0] 
             self.dimy = self.cam.sensor_size[1] 
-            self.dimx=2400
-            self.dimy=2000
-            self.cam.set_roi(0, 0, self.dimx,self.dimy) ## ? strange but full frame doesn't work speed of usb see photometric mail
+            #self.dimx=2400
+            #self.dimy=2000
+            self.cam.set_roi(0, 0, self.dimx,self.dimy) ## ? warning full frame doesn't work speed of usb see photometric mail need to be connected to a specifc usb card 
     #        print('adc',self.cam.getParameter("AdcSpeed"))
     #        print('ShutterTimingMode',self.cam.getParameter("ShutterTimingMode"))
             
