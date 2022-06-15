@@ -6,16 +6,17 @@ on conda prompt
 pip install qdarkstyle (https://github.com/ColinDuquesnoy/QDarkStyleSheet.git)
 pip install pyqtgraph (https://github.com/pyqtgraph/pyqtgraph.git)
 pip install visu
-install PVCAM and PVCAM sdk
-donwload PyVcam from : https://github.com/Photometrics/PyVCAM 
-avigate into the directory that contains setup.py and run python setup.py install
+install PVCAM and PVCAM sdk  : https://www.photometrics.com/support/software-and-drivers
 install vs_buildtools https://visualstudio.microsoft.com/fr/downloads/
 install window app sdk https://developer.microsoft.com/fr-fr/windows/downloads/windows-sdk/
+donwload PyVcam from : https://github.com/Photometrics/PyVCAM 
+Navigate into the directory that contains setup.py and  python setup.py install
+For firewire camera Thesycon driver must be intalled see https://www.photometrics.com/support/software-and-drivers
 @author: juliengautier
 modified 2019/08/13 : add position RSAI motors
 """
 
-__version__='2020.6'
+__version__='2022.6'
 __author__='julien Gautier'
 version=__version__
 
