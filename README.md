@@ -18,8 +18,8 @@ on a retiga 600 camera
 ## Requirements
 *   python 3.x
 *   Numpy
-*   PyQt5
-*   visu 2022.04
+*   PyQt6
+*   visu 
 
 ## Installation
 Install PVCAM and PVCAM SDK from : https://www.photometrics.com/support/software-and-drivers#software
