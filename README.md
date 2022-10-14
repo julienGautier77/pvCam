@@ -25,21 +25,19 @@ on a retiga 600 camera
 Install PVCAM and PVCAM SDK from : https://www.photometrics.com/support/software-and-drivers#software
 Onstall PyVCAM :
 
-Onstall vs_buildtools https://visualstudio.microsoft.com/fr/downloads/
+Install vs_buildtools https://visualstudio.microsoft.com/fr/downloads/
 
-install window app sdk https://developer.microsoft.com/fr-fr/windows/downloads/windows-sdk/
+I window app sdk https://developer.microsoft.com/fr-fr/windows/downloads/windows-sdk/
 
 Donwload PyVcam from : https://github.com/Photometrics/PyVCAM 
 
-Navigate into the directory that contains setup.py and  python setup.py install
+Navigate into the directory that contains setup.py and  do python setup.py install
 
 
 For firewire camera Thesycon driver must be intalled see https://www.photometrics.com/support/software-and-drivers
 
 Install visu :
 
-pip install qdarkstyle (https://github.com/ColinDuquesnoy/QDarkStyleSheet.git)
-pip install pyqtgraph (https://github.com/pyqtgraph/pyqtgraph.git)
 pip install git+https://github.com/julienGautier77/visu
 
 
