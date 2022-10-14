@@ -6,26 +6,29 @@ on conda prompt
 pip install qdarkstyle (https://github.com/ColinDuquesnoy/QDarkStyleSheet.git)
 pip install pyqtgraph (https://github.com/pyqtgraph/pyqtgraph.git)
 pip install visu
-install PVCAM and PVCAM sdk  : https://www.photometrics.com/support/software-and-drivers
+install PVCAM and PVCAM sdk
+donwload PyVcam from : https://github.com/Photometrics/PyVCAM 
+Navigate into the directory that contains setup.py and run python setup.py install
 install vs_buildtools https://visualstudio.microsoft.com/fr/downloads/
 install window app sdk https://developer.microsoft.com/fr-fr/windows/downloads/windows-sdk/
-donwload PyVcam from : https://github.com/Photometrics/PyVCAM 
-Navigate into the directory that contains setup.py and  python setup.py install
-For firewire camera Thesycon driver must be intalled see https://www.photometrics.com/support/software-and-drivers
+Becarrefull : Change parameter for different camera
+# ['Internal Trigger', 'Edge Trigger', 'Software Trigger Edge', 'Software Trigger First'] for retiga 7
+            # for retiga 6 Available keys are: ['Timed', 'Strobed', 'Bulb', 'Trigger First', 'Variable Timed']
+
 @author: juliengautier
 modified 2019/08/13 : add position RSAI motors
 """
 
-__version__='2022.6'
+__version__='2022.4'
 __author__='julien Gautier'
 version=__version__
 
-from PyQt5.QtWidgets import QApplication,QVBoxLayout,QHBoxLayout,QWidget,QPushButton,QDockWidget,QMenu
-from PyQt5.QtWidgets import QComboBox,QSlider,QLabel,QSpinBox,QDoubleSpinBox,QGridLayout,QToolButton,QInputDialog
-from pyqtgraph.Qt import QtCore
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QIcon
-from PyQt5 import QtGui 
+from PyQt6.QtWidgets import QApplication,QVBoxLayout,QHBoxLayout,QWidget,QPushButton,QDockWidget,QMenu,QLayout
+from PyQt6.QtWidgets import QComboBox,QSlider,QLabel,QSpinBox,QDoubleSpinBox,QGridLayout,QToolButton,QInputDialog
+from PyQt6 import QtCore
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QIcon
+from PyQt6 import QtGui 
 import sys,time
 import numpy as np
 import pathlib,os
@@ -35,11 +38,11 @@ import pyqtgraph as pg
 #except:
 #    print ('No visu module installed : pip install visu' )
 try :
-    from pyvcam import pvc 
-    from pyvcam.camera import Camera   
-    from pyvcam import constants as const 
+     from pyvcam import pvc 
+     from pyvcam.camera import Camera   
+     from pyvcam import constants as const 
 except:
-    print('can not control ropper camera: cameraClass or picam_types module is missing')   
+    print('can not control PVCAM camera, is missing')   
 
 
 import qdarkstyle
@@ -65,7 +68,7 @@ class PVCAM(QWidget):
         if self.confpath==None:
             self.confpath=str(p.parent / confFile) # ini file with global path
         
-        self.conf=QtCore.QSettings(self.confpath, QtCore.QSettings.IniFormat) # ini file 
+        self.conf=QtCore.QSettings(self.confpath, QtCore.QSettings.Format.IniFormat) # ini file 
         
         
         self.kwds["confpath"]=self.confpath
@@ -75,7 +78,7 @@ class PVCAM(QWidget):
         self.configMotName='configMoteurRSAI.ini'
         self.confMotorPath=self.configMotorPath+self.configMotName
        
-        self.confMot=QtCore.QSettings(str(p.parent / self.confMotorPath), QtCore.QSettings.IniFormat)
+        self.confMot=QtCore.QSettings(str(p.parent / self.confMotorPath), QtCore.QSettings.Format.IniFormat)
         self.kwds["conf"]=self.conf
         # self.kwds["confMot"]=self.confMot # add motor rsai position in visu
         
@@ -160,8 +163,8 @@ class PVCAM(QWidget):
             self.threadTemp.TEMP.connect(self.update_temp)
             self.threadTemp.stopTemp=False
             self.threadTemp.start()
-            self.cam.temp_setpoint=500 # temp en mC ?
-            self.cam.exp_mode='Timed'
+            self.cam.temp_setpoint=0 # temp en mC ?
+            self.cam.exp_mode='Internal Trigger'# ['Internal Trigger', 'Edge Trigger', 'Software Trigger Edge', 'Software Trigger First']
             self.cam.set_param(const.PARAM_CLEAR_CYCLES, int(1))
             # self.cam.set_param("CleanCycleHeight"    , int(1))
             # print('cam',self.cam)
@@ -174,9 +177,9 @@ class PVCAM(QWidget):
             # self.cam.setParameter("TriggerDetermination", int(1))
             self.dimx = self.cam.sensor_size[0] 
             self.dimy = self.cam.sensor_size[1] 
-            #self.dimx=2400
-            #self.dimy=2000
-            self.cam.set_roi(0, 0, self.dimx,self.dimy) ## ? warning full frame doesn't work speed of usb see photometric mail need to be connected to a specifc usb card 
+            self.dimx=2400
+            self.dimy=2000
+            self.cam.set_roi(0, 0, self.dimx,self.dimy) ## ? strange but full frame doesn't work speed of usb see photometric mail
     #        print('adc',self.cam.getParameter("AdcSpeed"))
     #        print('ShutterTimingMode',self.cam.getParameter("ShutterTimingMode"))
             
@@ -223,7 +226,7 @@ class PVCAM(QWidget):
         self.runButton.setStyleSheet("QToolButton:!pressed{border-image: url(%s);background-color: transparent ;border-color: green;}""QToolButton:pressed{image: url(%s);background-color: gray ;border-color: gray}"% (self.iconPlay,self.iconPlay) )
         
         self.snapButton=QToolButton(self)
-        self.snapButton.setPopupMode(0)
+        self.snapButton.setPopupMode(QToolButton.ToolButtonPopupMode.MenuButtonPopup)
         menu=QMenu()
         #menu.addAction('acq',self.oneImage)
         menu.addAction('set nb of shot',self.nbShotAction)
@@ -247,7 +250,7 @@ class PVCAM(QWidget):
         hbox1.addWidget(self.runButton)
         hbox1.addWidget(self.snapButton)
         hbox1.addWidget(self.stopButton)
-        hbox1.setSizeConstraint(QtGui.QLayout.SetFixedSize)
+        hbox1.setSizeConstraint(QLayout.SizeConstraint.SetMaximumSize)
         hbox1.setContentsMargins(0, 20, 0, 10)
         self.widgetControl=QWidget(self)
         
@@ -267,7 +270,7 @@ class PVCAM(QWidget):
         
         
         hbox2=QHBoxLayout()
-        hbox2.setSizeConstraint(QtGui.QLayout.SetFixedSize)
+        hbox2.setSizeConstraint(QLayout.SizeConstraint.SetMaximumSize)
         hbox2.setContentsMargins(5, 15, 0, 0)
         hbox2.addWidget(self.labelTrigger)
         
@@ -281,9 +284,9 @@ class PVCAM(QWidget):
         self.labelExp=QLabel('Exposure (ms)')
         self.labelExp.setStyleSheet('font :bold  9pt')
         self.labelExp.setMaximumWidth(160)
-        self.labelExp.setAlignment(Qt.AlignCenter)
+        self.labelExp.setAlignment(Qt.AlignmentFlag.AlignHCenter)
         
-        self.hSliderShutter=QSlider(Qt.Horizontal)
+        self.hSliderShutter=QSlider(Qt.Orientation.Horizontal)
         self.hSliderShutter.setMaximumWidth(80)
         self.shutterBox=QSpinBox()
         self.shutterBox.setStyleSheet('font :bold  8pt')
@@ -299,7 +302,7 @@ class PVCAM(QWidget):
         hboxShutter.addWidget(self.hSliderShutter)
         hboxShutter.addWidget(self.shutterBox)
         vboxShutter.addLayout(hboxShutter)
-        vboxShutter.setSizeConstraint(QtGui.QLayout.SetFixedSize)
+        vboxShutter.setSizeConstraint(QLayout.SizeConstraint.SetFixedSize)
         vboxShutter.setContentsMargins(5, 5, 0, 0)
         
         self.widgetShutter=QWidget(self)
@@ -333,7 +336,7 @@ class PVCAM(QWidget):
         hboxGain.addWidget(self.hSliderGain)
         hboxGain.addWidget(self.gainBox)
         vboxGain.addLayout(hboxGain)
-        vboxGain.setSizeConstraint(QtGui.QLayout.SetFixedSize)
+        vboxGain.setSizeConstraint(QLayout.SizeConstraint.SetFixedSize)
         vboxGain.setContentsMargins(5, 5, 0, 0)
         
         self.widgetGain=QWidget(self)
@@ -514,18 +517,14 @@ class PVCAM(QWidget):
     ## trig la CCD
         itrig=self.trigg.currentIndex()
         if itrig==0:
-            self.cam.exp_mode='Timed'
-            # self.cam.setParameter("TriggerResponse", int(1))
-            # self.cam.setParameter("TriggerDetermination", int(1))
-            # self.cam.sendConfiguration()
+            self.cam.exp_mode='Internal Trigger'# ['Internal Trigger', 'Edge Trigger', 'Software Trigger Edge', 'Software Trigger First'] for retiga 7
+            # for retiga 6 Available keys are: ['Timed', 'Strobed', 'Bulb', 'Trigger First', 'Variable Timed']
+           
             print ('trigger OFF')
         if itrig==1:
-            self.cam.exp_mode='Trigger First'
-            #Available keys are: ['Timed', 'Strobed', 'Bulb', 'Trigger First', 'Variable Timed']
-            #self.mte.setParameter("TriggerSource","TriggerSource_External")
-            # self.cam.setParameter("TriggerResponse", int(2))
-            # self.cam.setParameter("TriggerDetermination", int(1))
-            # self.cam.sendConfiguration()
+            self.cam.exp_mode='Edge Trigger'
+            
+           
             print ('Trigger ON ')
     
     def Display(self,data):
@@ -573,9 +572,9 @@ class ThreadOneAcq(QtCore.QThread):
     
     '''Second thread for controling one or more  acquisition independtly
     '''
-    newDataRun=QtCore.Signal(object)
-    newStateCam=QtCore.Signal(bool)
-    endAcqState=QtCore.Signal(bool)
+    newDataRun=QtCore.pyqtSignal(object)
+    newStateCam=QtCore.pyqtSignal(bool)
+    endAcqState=QtCore.pyqtSignal(bool)
     
     def __init__(self, parent):
         
@@ -621,7 +620,7 @@ class ThreadOneAcq(QtCore.QThread):
         
 class ThreadRunAcq(QtCore.QThread):
     
-    newDataRun=QtCore.Signal(object)
+    newDataRun=QtCore.pyqtSignal(object)
     
     def __init__(self, parent=None):
         super(ThreadRunAcq,self).__init__(parent)
