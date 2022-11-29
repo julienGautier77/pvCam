@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
+"""sdk
 Created on Mon Dec 31 23:14:46 2001
 on conda prompt 
 
@@ -316,9 +316,9 @@ class PVCAM(QWidget):
         self.labelGain=QLabel('Gain')
         self.labelGain.setStyleSheet('font :bold  10pt')
         self.labelGain.setMaximumWidth(120)
-        self.labelGain.setAlignment(Qt.AlignCenter)
+        self.labelGain.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        self.hSliderGain=QSlider(Qt.Horizontal)
+        self.hSliderGain=QSlider(Qt.Orientation.Horizontal)
         self.hSliderGain.setMaximumWidth(80)
         self.gainBox=QSpinBox()
         self.gainBox.setMaximumWidth(60)
@@ -695,7 +695,7 @@ class TEMPWIDGET(QWidget):
         self.cam=self.parent.cam
         self.isWinOpen=False
         self.setup()
-        self.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
+        self.setStyleSheet(qdarkstyle.load_stylesheet(qt_api='pyqt6'))
         
     def setup(self) :   
         self.setWindowIcon(QIcon('./icons/LOA.png'))
@@ -747,7 +747,7 @@ class SETTINGWIDGET(QWidget):
         self.isWinOpen=False
         
         self.setup()
-        self.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
+        self.setStyleSheet(qdarkstyle.load_stylesheet(qt_api='pyqt6'))
         
         self.actionButton()
         self.roi1Is=False
@@ -962,7 +962,7 @@ if __name__ == "__main__":
     
     appli = QApplication(sys.argv)
     # confpathVisu='C:/Users/Salle-Jaune/Desktop/Python/Princeton/confVisuFootPrint.ini'
-    appli.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
+    
     e = PVCAM(camID=None)  
     e.show()
     appli.exec_()       
