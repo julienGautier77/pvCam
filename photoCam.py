@@ -542,7 +542,7 @@ class PVCAM(QWidget):
         """
         
         if fene.isWinOpen==False:
-            print("New widget")
+            #  print("New widget")
             fene.show()
             fene.isWinOpen=True
     
@@ -614,7 +614,7 @@ class ThreadOneAcq(QtCore.QThread):
         
     def stopThreadOneAcq(self):
         self.stopRunAcq=True
-        self.cam.finish()
+        # self.cam.finish()
         
         
         
@@ -656,7 +656,7 @@ class ThreadRunAcq(QtCore.QThread):
     
     def stopThreadRunAcq(self):
         self.stopRunAcq=True
-        self.cam.finish()
+        # self.cam.finish()
         self.cam.abort()
         
         
@@ -962,7 +962,7 @@ if __name__ == "__main__":
     
     appli = QApplication(sys.argv)
     # confpathVisu='C:/Users/Salle-Jaune/Desktop/Python/Princeton/confVisuFootPrint.ini'
-    
+    appli.setStyleSheet(qdarkstyle.load_stylesheet(qt_api='pyqt6'))
     e = PVCAM(camID=None)  
     e.show()
     appli.exec_()       
