@@ -9,7 +9,7 @@ pip install visu
 install PVCAM and PVCAM sdk
 donwload PyVcam from : https://github.com/Photometrics/PyVCAM 
 Navigate into the directory that contains setup.py and run python setup.py install
-install vs_buildtools https://visualstudio.microsoft.com/fr/downloads/
+not usefull : install vs_buildtools https://visualstudio.microsoft.com/fr/downloads/
 install window app sdk https://developer.microsoft.com/fr-fr/windows/downloads/windows-sdk/
 Becarrefull : Change parameter for different camera
 # ['Internal Trigger', 'Edge Trigger', 'Software Trigger Edge', 'Software Trigger First'] for retiga 7
